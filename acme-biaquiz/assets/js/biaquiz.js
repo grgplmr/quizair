@@ -12,6 +12,7 @@
         this.queue=[];
         this.score=0;
         this.current=null;
+        this.awaitingNext=false;
         this.init();
     }
     Quiz.prototype.init=function(){
@@ -29,6 +30,7 @@
             self.$el.html('<p>Score: '+self.score+'/'+self.questions.length+'</p><button class="acme-biaquiz-restart">Relancer le quiz</button>');
             return;
         }
+        self.awaitingNext=false;
         self.current=self.queue.shift();
         var html='<div class="bia-question"><p>'+self.current.title+'</p><ul>';
         $.each(self.current.choices,function(i,choice){
@@ -38,18 +40,30 @@
         self.$el.html(html);
     };
     Quiz.prototype.answer=function(index){
+        if(this.awaitingNext){return;}
         if(index==this.current.answer){
             this.score++;
         }else{
             this.queue.push(this.current);
         }
-        this.next();
+        this.awaitingNext=true;
+        var html='<div class="bia-explanation">';
+        if(this.current.explanation){
+            html+='<p>'+this.current.explanation+'</p>';
+        }
+        html+='<button class="bia-next">Suivant</button></div>';
+        this.$el.find('.bia-question').append(html);
     };
     $(document).on('click','.bia-choice',function(e){
         e.preventDefault();
         var $btn=$(this);var index=$btn.data('index');
         var $quiz=$btn.closest('.acme-biaquiz').data('quiz');
         if($quiz){$quiz.answer(index);} });
+    $(document).on('click','.bia-next',function(e){
+        e.preventDefault();
+        var $quiz=$(this).closest('.acme-biaquiz').data('quiz');
+        if($quiz){$quiz.next();}
+    });
     $(document).on('click','.acme-biaquiz-restart',function(){location.reload();});
     $(function(){
         $('.acme-biaquiz').each(function(){var q=new Quiz($(this));$(this).data('quiz',q);});
