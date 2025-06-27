@@ -18,6 +18,7 @@ class ACME_BIAQuiz {
 
         add_action( 'init', [ $this, 'register_post_types' ] );
         add_action( 'init', [ $this, 'register_taxonomies' ] );
+        add_action( 'init', [ $this, 'load_textdomain' ] );
         add_shortcode( 'acme_bia_quiz', [ $this, 'quiz_shortcode' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
@@ -48,6 +49,10 @@ class ACME_BIAQuiz {
             'show_ui' => true,
             'hierarchical' => false,
         ] );
+    }
+
+    public function load_textdomain() {
+        load_plugin_textdomain( 'acme-biaquiz', false, dirname( plugin_basename( ACME_BIAQUIZ_FILE ) ) . '/languages' );
     }
 
     public function enqueue_assets() {
