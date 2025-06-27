@@ -90,10 +90,11 @@ class ACME_BIAQuiz {
         $questions = [];
         foreach ( $query->posts as $post ) {
             $questions[] = [
-                'id' => $post->ID,
-                'title' => $post->post_title,
-                'choices' => get_field( 'choices', $post->ID ),
-                'answer' => get_field( 'answer', $post->ID ),
+                'id'          => $post->ID,
+                'title'       => $post->post_title,
+                'choices'     => get_field( 'choices', $post->ID ),
+                'answer'      => get_field( 'answer', $post->ID ),
+                'explanation' => get_field( 'explanation', $post->ID ),
             ];
         }
         wp_reset_postdata();
