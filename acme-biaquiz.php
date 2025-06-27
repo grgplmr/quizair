@@ -10,6 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Silence is golden!
 }
 
+// Reference to the main plugin file for asset loading and other helpers.
+if ( ! defined( 'ACME_BIAQUIZ_FILE' ) ) {
+    define( 'ACME_BIAQUIZ_FILE', __FILE__ );
+}
+
 require_once __DIR__ . '/includes/class-acme-biaquiz.php';
 
 /**
