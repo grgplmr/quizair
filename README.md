@@ -18,3 +18,7 @@ Features include:
 - Simple JS logic repeating wrong answers until success and displaying final score.
 
 This is a basic implementation meant as starting point for further development.
+
+## License
+
+This plugin is released under the [GNU General Public License v2.0](LICENSE).
