@@ -10,6 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Silence is golden!
 }
 
+if ( ! defined( 'ACME_BIAQUIZ_FILE' ) ) {
+    define( 'ACME_BIAQUIZ_FILE', __FILE__ );
+}
+
 require_once __DIR__ . '/includes/class-acme-biaquiz.php';
 
 /**
