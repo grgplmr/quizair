@@ -4,6 +4,7 @@ Minimal WordPress plugin providing themed quizzes for BIA training.
 
 Features include:
 - Custom post type for questions with ACF fields `choices` and `answer`.
+- Requires the Advanced Custom Fields plugin. If ACF is not active, REST and import/export features are disabled.
 - Taxonomy for categories.
 - Six default categories are created on activation:
   1. Aérodynamique et mécanique du vol

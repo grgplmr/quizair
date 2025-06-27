@@ -4,6 +4,7 @@ class ACME_BIAQuiz {
     const TAX_CATEGORY = 'acme_bia_category';
 
     private static $instance = null;
+    private $acf_available = true;
 
     public static function instance() {
         if ( self::$instance === null ) {
@@ -13,14 +14,21 @@ class ACME_BIAQuiz {
     }
 
     private function __construct() {
+        $this->acf_available = function_exists( 'get_field' );
+
         add_action( 'init', [ $this, 'register_post_types' ] );
         add_action( 'init', [ $this, 'register_taxonomies' ] );
         add_shortcode( 'acme_bia_quiz', [ $this, 'quiz_shortcode' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-        add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
-        if ( is_admin() ) {
-            require_once __DIR__ . '/class-acme-biaquiz-admin.php';
-            new ACME_BIAQuiz_Admin();
+
+        if ( $this->acf_available ) {
+            add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+            if ( is_admin() ) {
+                require_once __DIR__ . '/class-acme-biaquiz-admin.php';
+                new ACME_BIAQuiz_Admin();
+            }
+        } else {
+            add_action( 'admin_notices', [ $this, 'acf_missing_notice' ] );
         }
     }
 
@@ -99,5 +107,15 @@ class ACME_BIAQuiz {
         }
         wp_reset_postdata();
         return $questions;
+    }
+
+    public function acf_missing_notice() {
+        echo '<div class="notice notice-warning"><p>'
+            . esc_html__( 'ACME BIAQuiz requires the Advanced Custom Fields plugin. Certain features are disabled.', 'acme-biaquiz' )
+            . '</p></div>';
+    }
+
+    public function is_acf_available() {
+        return $this->acf_available;
     }
 }
