@@ -4,6 +4,7 @@ Minimal WordPress plugin providing themed quizzes for BIA training.
 
 Features include:
 - Custom post type for questions with ACF fields `choices` and `answer`.
+- Requires the Advanced Custom Fields plugin. If ACF is not active, REST and import/export features are disabled.
 - Taxonomy for categories.
 - Six default categories are created on activation:
   1. Aérodynamique et mécanique du vol
@@ -46,4 +47,8 @@ category,question,option1,option2,option3,option4,correct_answer,explanation
 ## REST API
 
 Questions are accessible through `wp-json/acme-biaquiz/v1/questions`. Passing a `category` parameter filters by category. The endpoint returns up to 20 random questions.
+
+## License
+
+This plugin is released under the [GNU General Public License v2.0](LICENSE).
 
